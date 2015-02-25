@@ -3,7 +3,7 @@ from django.db import models
 
 class Page(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='page')
+    image = models.ImageField()
     text = models.TextField()
 
     def __str__(self):
@@ -14,7 +14,7 @@ class Page(models.Model):
 class CarouselItem(models.Model):
     title = models.CharField(max_length=255)
     cut = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='carouselitem')
+    image = models.ImageField()
     link = models.URLField()
 
     def __str__(self):
@@ -25,7 +25,7 @@ class CarouselItem(models.Model):
 class CircleItem(models.Model):
     title = models.CharField(max_length=64)
     cut = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='circleitem')
+    image = models.ImageField()
     link = models.URLField()
 
     def __str__(self):
@@ -36,7 +36,7 @@ class CircleItem(models.Model):
 class FeatureItem(models.Model):
     title = models.CharField(max_length=128)
     cut = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='featureitem')
+    image = models.ImageField()
     link = models.URLField()
 
     def __str__(self):

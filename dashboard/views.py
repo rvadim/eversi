@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView
 
 from dashboard.models import CarouselItem
+from dashboard.models import CircleItem
+from dashboard.models import FeatureItem
 
 import logging
 
@@ -13,4 +15,6 @@ class Base(TemplateView):
     def get_context_data(self, **kwargs):
         return {
             'carousel': CarouselItem.objects.all(),
+            'circle': CircleItem.objects.all(),
+            'feature': FeatureItem.objects.all(),
         }
