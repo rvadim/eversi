@@ -12,7 +12,7 @@ class Page(models.Model):
 
 class CarouselItem(models.Model):
     title = models.CharField(max_length=255)
-    cut = models.CharField(max_length=255)
+    cut = models.TextField()
     image = models.ImageField()
     link = models.URLField()
 
@@ -22,8 +22,8 @@ class CarouselItem(models.Model):
 
 
 class CircleItem(models.Model):
-    title = models.CharField(max_length=64)
-    cut = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    cut = models.TextField()
     image = models.ImageField()
     link = models.URLField()
 
@@ -33,8 +33,8 @@ class CircleItem(models.Model):
 
 
 class FeatureItem(models.Model):
-    title = models.CharField(max_length=128)
-    cut = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    cut = models.TextField()
     image = models.ImageField()
     link = models.URLField()
 
