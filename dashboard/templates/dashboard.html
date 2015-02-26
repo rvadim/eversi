@@ -21,7 +21,7 @@
             <div class="container">
                 <div class="carousel-caption">
                     <h1>{{ item.title }}</h1>
-                    <p>{{ item.cut }}</p>
+                    <p>{{ item.cut | safe }}</p>
                     <p><a class="btn btn-lg btn-primary" href="{{ item.link }}" role="button">Подробнее</a></p>
                 </div>
             </div>

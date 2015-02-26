@@ -1,0 +1,97 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          FastCGI servers for Django
+# Required-Start:    networking
+# Required-Stop:     networking
+# Default-Start:     2 3 4 5
+# Default-Stop:      S 0 1 6
+# Short-Description: Start FastCGI servers with Django.
+# Description:       Django, in order to operate with FastCGI, must be started
+#                    in a very specific way with manage.py.
+### END INIT INFO
+#
+# Author:  Vadim Reyder <v.reyder AT 2gis.ru>.
+
+
+#### CONFIGURATION
+SERVICE_NAME=django
+DEPLOY_PATH={{ django_deploy_path | default('/opt')}}
+ENVIRONMENT_PATH=$DEPLOY_PATH/{{ django_env_dir }}
+RUNFILES_PATH=$DEPLOY_PATH/run
+LOGS_PATH=$DEPLOY_PATH/logs
+PYTHON_BIN=$ENVIRONMENT_PATH/bin/python
+RUN_AS={{ django_run_as | default('www-data') }}
+MAXREQUESTS={{ django_max_requests | default(1000) }}
+#### END CONFIGURATION
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="Django Service"
+NAME=$0
+
+d_start()
+{
+    if [ -f $RUNFILES_PATH/$SERVICE_NAME.pid ]; then
+        echo -n " already running"
+    else
+        start-stop-daemon --start --quiet \
+                   --pidfile $RUNFILES_PATH/$SERVICE_NAME.pid \
+                   --chuid $RUN_AS --exec /usr/bin/env -- $PYTHON_BIN \
+                   $DEPLOY_PATH/{{ django_project_dir }}/manage.py runfcgi \
+                   protocol=fcgi method=threaded maxrequests=$MAXREQUESTS \
+                   socket=$RUNFILES_PATH/$SERVICE_NAME.socket \
+                   pidfile=$RUNFILES_PATH/$SERVICE_NAME.pid \
+                   outlog=$LOGS_PATH/$SERVICE_NAME-stdout.log \
+                   errlog=$LOGS_PATH/$SERVICE_NAME-stderr.log
+        chmod 400 $RUNFILES_PATH/$SERVICE_NAME.pid
+        chown $RUN_AS:www-data $RUNFILES_PATH/$SERVICE_NAME.socket
+        chmod 770 $RUNFILES_PATH/$SERVICE_NAME.socket
+    fi
+}
+
+d_stop() {
+    echo -n " $SERVICE_NAME"
+    start-stop-daemon --stop --quiet --pidfile $RUNFILES_PATH/$SERVICE_NAME.pid \
+                      || echo -n " not running"
+    if [ -f $RUNFILES_PATH/$SERVICE_NAME.pid ]; then
+       rm -f $RUNFILES_PATH/$SERVICE_NAME.pid
+    fi
+}
+
+ACTION="$1"
+case "$ACTION" in
+    start)
+        echo -n "Starting $DESC:"
+        d_start
+        echo "."
+        ;;
+
+    stop)
+        echo -n "Stopping $DESC:"
+        d_stop
+        echo "."
+        ;;
+
+    status)
+        if [ -f $RUNFILES_PATH/$SERVICE_NAME.pid ]; then
+            echo " running ($(cat $RUNFILES_PATH/$SERVICE_NAME.pid))"
+        else
+            echo " not running"
+        fi
+        ;;
+
+    restart|force-reload)
+        echo -n "Restarting $DESC: $NAME"
+        d_stop
+        sleep 2
+        d_start
+        echo "."
+        ;;
+
+    *)
+        echo "Usage: $NAME {start|stop|restart|force-reload|status}" >&2
+        exit 2
+        ;;
+esac
+
+exit 0
+

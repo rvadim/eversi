@@ -3,7 +3,6 @@ from django.db import models
 
 class Page(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField()
     text = models.TextField()
 
     def __str__(self):

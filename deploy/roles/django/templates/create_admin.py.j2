@@ -1,0 +1,19 @@
+from __future__ import print_function
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eversi.settings')
+import django
+
+from django.conf import settings
+from django.contrib.auth.models import User
+django.setup()
+
+
+try:
+    User.objects.get(username__exact='{{ django_admin_login }}')
+    print('User with name "{{ django_admin_login }}" already exists')
+except User.DoesNotExist, e:
+    print(e)
+    print('Create user with name "{{ django_admin_login }}"')
+    User.objects.db_manager().create_superuser(
+        '{{ django_admin_login }}', '{{ django_admin_email }}', '{{ django_admin_pass }}')

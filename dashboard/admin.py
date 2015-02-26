@@ -4,22 +4,54 @@ from dashboard.models import Page
 from dashboard.models import CarouselItem
 from dashboard.models import CircleItem
 from dashboard.models import FeatureItem
+from django import forms
+
+from ckeditor.widgets import CKEditorWidget
+
+
+class PageAdminForm(forms.ModelForm):
+    text = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Page
 
 
 class PageAdmin(admin.ModelAdmin):
-    pass
+    form = PageAdminForm
+
+
+class CarouselItemAdminForm(forms.ModelForm):
+    cut = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = CarouselItem
 
 
 class CarouselItemAdmin(admin.ModelAdmin):
-    pass
+    form = CarouselItemAdminForm
+
+
+class CircleItemAdminForm(forms.ModelForm):
+    cut = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = CircleItem
 
 
 class CircleItemAdmin(admin.ModelAdmin):
-    pass
+    form = CircleItemAdminForm
+
+
+class FeatureItemAdminForm(forms.ModelForm):
+    cut = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = FeatureItem
 
 
 class FeatureItemAdmin(admin.ModelAdmin):
-    pass
+    form = FeatureItemAdminForm
+
 
 admin.site.register(Page, PageAdmin)
 admin.site.register(CarouselItem, CarouselItemAdmin)

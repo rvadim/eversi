@@ -1,0 +1,29 @@
+---
+
+- name: Install packages
+  apt: name={{ item }}
+  with_items:
+      - postgresql-9.1
+      - libpq-dev
+      - python-psycopg2
+
+#- name: Set postgres config to listen on any hosts
+  #lineinfile: dest=/etc/postgresql/9.1/main/postgresql.conf
+    #insertafter="^#listen_addresses = 'localhost'"
+    #line="listen_addresses = '*'"
+  #notify:
+    #- database-restart
+
+- name: Create pg_hba.conf for postgresql
+  template: src=pg_hba.conf.j2 dest=/etc/postgresql/9.1/main/pg_hba.conf
+  notify:
+    - database-reload
+
+- name: Create database
+  sudo_user: postgres
+  postgresql_db: name={{ database_name }} encoding='UTF-8' template=template0
+
+- name: Create user
+  sudo_user: postgres
+  postgresql_user: db={{ database_name }}
+    name={{ database_user }} password={{ database_password }}

@@ -8,4 +8,5 @@ static==0.4
 wsgiref==0.1.2
 Pillow==2.7.0
 django-treemenus==0.9.2
+django-ckeditor=4.4.7
 

@@ -1,0 +1,22 @@
+django_debug: False
+
+django_deploy_path: /opt
+django_env_dir: eversi-env
+django_project_dir: eversi
+django_logs_dir: logs
+django_run_dir: run
+django_static_dir: static
+django_branch: master
+
+database_host: localhost
+database_backend: django.db.backends.postgresql_psycopg2
+database_name: eversi
+database_user: eversi
+database_password: eversi
+
+django_run_as: www-data
+django_max_requests: 1000
+
+django_admin_login: secret
+django_admin_pass: secret
+django_admin_email: email@email.zone

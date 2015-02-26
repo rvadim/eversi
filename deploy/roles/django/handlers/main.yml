@@ -1,0 +1,4 @@
+---
+
+- name: django-restart
+  service: enabled=yes name=django state=restarted

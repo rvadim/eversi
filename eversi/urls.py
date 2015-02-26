@@ -4,10 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from dashboard.views import Base
+from dashboard.views import PageView
 
 urlpatterns = patterns('',
-    # url(r'^blog/', include('blog.urls')),
     url(r'^$', Base.as_view(), name='home'),
+    url(r'^page/(?P<pk>\d+)/$', PageView.as_view(), name='page-detail'),
+    url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
 

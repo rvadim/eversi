@@ -1,0 +1,82 @@
+---
+
+- name: Install packages
+  apt: name={{ item }}
+  with_items:
+    - python
+    - python-dev
+    - python-setuptools
+    - python-virtualenv
+    - libmysqlclient-dev
+    - libpq-dev
+    - libldap2-dev
+    - libsasl2-dev
+    - git-core
+
+
+
+- name: Install API service config
+  template: src=django.sh.j2 dest=/etc/init.d/django mode=0744
+  notify:
+    - django-restart
+
+- name: Create deploy directories
+  file: path={{ django_deploy_path }}/{{ item }} state=directory
+    owner={{ django_run_as }}
+    group={{ django_run_as }}
+  with_items:
+    - "{{ django_env_dir }}"
+    - "{{ django_run_dir }}"
+    - "{{ django_logs_dir }}"
+    - "{{ django_static_dir }}"
+    - "{{ django_project_dir }}"
+
+- name: Clone/pull API project
+  sudo: yes
+  git:
+    repo=https://github.com/rvadim/eversi.git
+    dest={{ django_deploy_path }}/{{ django_project_dir }}
+    version={{ django_branch }}
+    accept_hostkey=True
+  notify:
+    - django-restart
+
+- name: Install API python packages
+  sudo: yes
+  pip: requirements={{ django_deploy_path }}/{{ django_project_dir }}/requirements.txt
+    virtualenv={{ django_deploy_path }}/{{ django_env_dir }}
+  notify:
+    - django-restart
+
+- name: Create API config
+  template:
+    src=settings.py.j2
+    dest={{ django_deploy_path }}/{{ django_project_dir }}/eversi/settings.py
+    owner={{ django_run_as }}
+    group={{ django_run_as }}
+  notify:
+    - django-restart
+
+- name: Collect static for django
+  sudo: yes
+  django_manage: command=collectstatic
+    app_path={{ django_deploy_path }}/{{ django_project_dir }}
+    virtualenv={{ django_deploy_path }}/{{ django_env_dir }}
+    link=yes
+
+- name: Migrate database
+  sudo: no
+  django_manage: command=migrate
+    app_path={{ django_deploy_path }}/{{ django_project_dir }}
+    virtualenv={{ django_deploy_path }}/{{ django_env_dir }}
+
+- name: Upload django super user creation script
+  template: src=create_admin.py.j2 dest="{{ django_deploy_path }}/{{ django_project_dir }}/create_admin.py"
+
+- name: Execute create admin script
+  command: "{{ django_deploy_path }}/{{ django_env_dir }}/bin/python {{ django_deploy_path }}/{{ django_project_dir }}/create_admin.py"
+  args:
+    chdir: "{{ django_deploy_path }}/{{ django_project_dir }}"
+
+- name: Remote django admin script
+  file: path="{{ django_deploy_path }}/{{ django_project_dir }}/create_admin.py" state=absent
