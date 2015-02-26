@@ -50,7 +50,7 @@
         <div class="col-lg-4">
             <img class="img-circle" src="{{ item.image.url }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
             <h2>{{ item.title }}</h2>
-            <p>{{ item.cut }}</p>
+            <p>{{ item.cut | safe }}</p>
             <p><a class="btn btn-default" href="{{ item.link }}" role="button">Читать далее &raquo;</a></p>
         </div>
         {% endfor %}
@@ -65,14 +65,14 @@
                 </div>
                 <div class="col-md-7">
                     <h2 class="featurette-heading">{{ item.title }}</h2>
-                    <p class="lead">{{ item.cut }}</p>
+                    <p class="lead">{{ item.cut | safe }}</p>
                 </div>
             </div>
         {% else %}
             <div class="row featurette">
                 <div class="col-md-7">
                     <h2 class="featurette-heading">{{ item.title }}</h2>
-                    <p class="lead">{{ item.cut }}</p>
+                    <p class="lead">{{ item.cut | safe }}</p>
                 </div>
                 <div class="col-md-5">
                     <img class="featurette-image img-responsive" src="{{ item.image.url }}" alt="Generic placeholder image">
