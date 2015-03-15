@@ -44,18 +44,6 @@
 <!-- Wrap the rest of the page in another container to center all the content. -->
 
 <div class="container marketing">
-
-    <div class="row">
-        {% for item in circle %}
-        <div class="col-lg-4">
-            <img class="img-circle" src="{{ item.image.url }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.cut | safe }}</p>
-            <p><a class="btn btn-default" href="{{ item.link }}" role="button">Читать далее &raquo;</a></p>
-        </div>
-        {% endfor %}
-    </div>
-
     {% for item in feature %}
         <hr class="featurette-divider">
         {% if forloop.counter|divisibleby:"2" %}
@@ -66,6 +54,7 @@
                 <div class="col-md-7">
                     <h2 class="featurette-heading">{{ item.title }}</h2>
                     <p class="lead">{{ item.cut | safe }}</p>
+                    <p><a class="btn btn-default" href="{{ item.link }}" role="button">Читать далее &raquo;</a></p>
                 </div>
             </div>
         {% else %}
@@ -73,6 +62,7 @@
                 <div class="col-md-7">
                     <h2 class="featurette-heading">{{ item.title }}</h2>
                     <p class="lead">{{ item.cut | safe }}</p>
+                    <p><a class="btn btn-default" href="{{ item.link }}" role="button">Читать далее &raquo;</a></p>
                 </div>
                 <div class="col-md-5">
                     <img class="featurette-image img-responsive" src="{{ item.image.url }}" alt="Generic placeholder image">
@@ -82,5 +72,15 @@
     {% endfor %}
 
     <hr class="featurette-divider">
+
+    <div class="row">
+        {% for item in circle %}
+        <div class="col-lg-4">
+            <img class="img-circle" src="{{ item.image.url }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+            <h2>{{ item.title }}</h2>
+            <p>{{ item.cut | safe }}</p>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

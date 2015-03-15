@@ -42,15 +42,15 @@ class CircleItemAdmin(admin.ModelAdmin):
     form = CircleItemAdminForm
 
 
-class FeatureItemAdminForm(forms.ModelForm):
-    cut = forms.CharField(widget=CKEditorWidget())
-
-    class Meta:
-        model = FeatureItem
+#class FeatureItemAdminForm(forms.ModelForm):
+#    cut = forms.CharField(widget=CKEditorWidget())
+#
+#    class Meta:
+#       model = FeatureItem
 
 
 class FeatureItemAdmin(admin.ModelAdmin):
-    form = FeatureItemAdminForm
+    pass
 
 
 admin.site.register(Page, PageAdmin)

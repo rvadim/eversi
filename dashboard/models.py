@@ -14,7 +14,7 @@ class CarouselItem(models.Model):
     title = models.CharField(max_length=255)
     cut = models.TextField()
     image = models.ImageField()
-    link = models.URLField()
+    link = models.CharField(max_length=255)
 
     def __str__(self):
         return "CarouselItem: {}".format(
@@ -25,7 +25,6 @@ class CircleItem(models.Model):
     title = models.CharField(max_length=255)
     cut = models.TextField()
     image = models.ImageField()
-    link = models.URLField()
 
     def __str__(self):
         return "CircleItem: {}".format(
@@ -36,7 +35,7 @@ class FeatureItem(models.Model):
     title = models.CharField(max_length=255)
     cut = models.TextField()
     image = models.ImageField()
-    link = models.URLField()
+    link = models.CharField(max_length=255)
 
     def __str__(self):
         return "FeatureItem: {}".format(
