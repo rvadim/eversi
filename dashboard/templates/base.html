@@ -31,12 +31,14 @@
 {% block content %}{% endblock %}
 
 
-<div class="container marketing">
-    <footer>
-        <p class="pull-right"><a href="#">Наверх</a></p>
-        <p>&copy; {% now "Y" %} Eversi. &middot; <!--a href="#">Privacy</a> &middot; <a href="#">Terms</a--></p>
-    </footer>
-</div>
+<footer style="margin: 10px;">
+    <div class="well">
+        {% show_menu "Main"  "footer" %}
+    </div>
+    <p class="pull-right"><a href="#">Наверх</a></p>
+    <p>&copy; {% now "Y" %} Eversi. &middot; <!--a href="#">Privacy</a> &middot; <a href="#">Terms</a--></p>
+
+</footer>
 
 <!-- Bootstrap core JavaScript ================================================== -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
