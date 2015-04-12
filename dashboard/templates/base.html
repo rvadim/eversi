@@ -30,15 +30,23 @@
 {% show_menu "Main" %}
 {% block content %}{% endblock %}
 
-
-<footer style="margin: 10px;">
-    <div class="well">
-        {% show_menu "Main"  "footer" %}
-    </div>
-    <p class="pull-right"><a href="#">Наверх</a></p>
-    <p>&copy; {% now "Y" %} Eversi. &middot; <!--a href="#">Privacy</a> &middot; <a href="#">Terms</a--></p>
-
-</footer>
+<div class="container">
+    <footer>
+        <div class="well row">
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Адрес ул. Фабричная 17 к.2<br />
+                <img src="{% static 'img/vk.png' %}" /> <a href="http://vk.com/eversi">http://vk.com/eversi</a> Группа вконтакте
+            </div>
+            <div class="col-md-6">
+                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 248-30-66 - получить консультацию или записаться на тренировку<br />
+                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 8-913-205-10-91 - развитие и маркетинг<br />
+                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 8-952-926-03-12 - работа по залу и вакансии<br />
+            </div>
+        </div>
+        <p class="pull-right"><a href="#">Наверх</a></p>
+        <p>&copy; {% now "Y" %} Eversi. &middot; <!--a href="#">Privacy</a> &middot; <a href="#">Terms</a--></p>
+    </footer>
+</div>
 
 <!-- Bootstrap core JavaScript ================================================== -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
